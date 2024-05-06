@@ -28,6 +28,10 @@ class Bot(Client):
         super().__init__(
             name, api_id, api_hash,
             bot_token=bot_token,
+            mongodb=dict(
+                connection=self.conf.ASYNC_PYMONGO,
+                remove_peers=False,
+            ),
             **kwargs,
         )
 

@@ -21,7 +21,7 @@ async def broadcast(c: Bot, m: Message):
 
     helpers.write('broadcast.txt', m.chat.id, msg.id)
 
-    users = c.db.list()
+    users = await c.db.list()
     admns = len(c.conf.ADMIN_IDS)
     total = len(users) - admns if len(users) > admns else 0
     done, fail = 0, 0
@@ -42,7 +42,7 @@ async def broadcast(c: Bot, m: Message):
             await asyncio.sleep(e.value)
             c.log.warning(f'Floodwait - Sleep: {e.value}s')
         except RPCError:
-            c.db.remove(user)
+            await c.db.remove(user)
             fail += 1
         if (done + fail) % 25 == 0:
             asyncio.create_task(progress(msg))

@@ -15,8 +15,8 @@ from bot.client import Bot
 @Bot.on_message(command(Bot.cmd.start) & private)
 async def start(c: Bot, m: Message):
     user = m.from_user.id
-    if not c.db.get(user):
-        c.db.add(user)
+    if not await c.db.get(user):
+        await c.db.add(user)
     if len(m.command) == 1:
         return await m.reply(
             helpers.greeting,

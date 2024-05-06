@@ -14,12 +14,11 @@ class Helpers:
     forcemsg: str = 'To view messages shared by bots. '\
                     'Join first, then press the Try Again button.'
     bttnrows: int = 3
-    btn: callable = ikb
 
     def __init__(self, client: callable):
         self.c = client
 
-    def urlmarkup(self, url: str) -> btn:
+    def urlmarkup(self, url: str) -> ikb:
         return ikb([[('Share', url, 'url')]])
 
     def urlstring(self, string: str, share=False) -> str:
@@ -53,7 +52,7 @@ class Helpers:
                     ('Try Again', self.urlstring(m.command[1]), 'url'),
                 ],
             )
-        return self.btn(buttons)
+        return ikb(buttons)
 
     async def joined(self, user: int) -> bool:
         if not self.c.conf.FSUB_IDS or user in self.c.conf.ADMIN_IDS:

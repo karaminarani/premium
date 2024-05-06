@@ -20,5 +20,5 @@ async def ping(_, m: Message):
 
 @Bot.on_message(command(Bot.cmd.users) & private & user(Bot.conf.ADMIN_IDS))
 async def users(c: Bot, m: Message):
-    users = c.db.list()
+    users = await c.db.list()
     await m.reply(f'{len(users)} users', quote=True)
