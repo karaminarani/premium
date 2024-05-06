@@ -13,9 +13,9 @@ from bot.client import Bot
 @Bot.on_message(command(Bot.cmd.ping) & private)
 async def ping(_, m: Message):
     _ping = time.time()
-    ping = await m.reply('...', quote=True)
+    _pong = await m.reply('...', quote=True)
     ping_ = (time.time() - _ping) * 1000
-    return await ping.edit(f'{ping_:.2f} ms')
+    return await _pong.edit(f'{ping_:.2f} ms')
 
 
 @Bot.on_message(command(Bot.cmd.users) & private & user(Bot.conf.ADMIN_IDS))

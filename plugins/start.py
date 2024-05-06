@@ -37,9 +37,13 @@ async def start(c: Bot, m: Message):
     elif len(decode) == 3:
         msgid_ = int(int(decode[2]) / abs(c.conf.DATABASE_ID))
         msgids = range(
-            _msgid, msgid_ +
-            1,
-        ) if _msgid < msgid_ else range(_msgid, msgid_ - 1, -1)
+            _msgid,
+            msgid_ + 1,
+        ) if _msgid < msgid_ else range(
+            _msgid,
+            msgid_ - 1,
+            -1,
+        )
     msgs = await c.get_messages(c.conf.DATABASE_ID, msgids)
     for msg in msgs:
         try:

@@ -6,14 +6,14 @@ from contextlib import suppress
 from pyrogram.errors import FloodWait
 from pyrogram.errors import RPCError
 from pyrogram.filters import command
-from pyrogram.filters import user
+from pyrogram.filters import user as fltusr
 from pyrogram.types import Message
 
 from .helpers import helpers
 from bot.client import Bot
 
 
-@Bot.on_message(command(Bot.cmd.broadcast) & user(Bot.conf.ADMIN_IDS))
+@Bot.on_message(command(Bot.cmd.broadcast) & fltusr(Bot.conf.ADMIN_IDS))
 async def broadcast(c: Bot, m: Message):
     if not (bcmsg := m.reply_to_message):
         return await m.reply('Reply to message.', quote=True)
@@ -26,7 +26,7 @@ async def broadcast(c: Bot, m: Message):
     total = len(users) - admns if len(users) > admns else 0
     done, fail = 0, 0
 
-    async def progress(msg) -> Message:
+    async def progress(msg: callable) -> Message:
         nonlocal done, fail, total
         with suppress(Exception):
             await msg.edit(f'Sent: {done}/{total} - Failed: {fail}')

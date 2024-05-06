@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import uvloop
-from pyromod import Client
+from pyrogram import Client
 
 from .helpers.logger import Logger
 from .helpers.misc import BotCommands

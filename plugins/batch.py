@@ -37,13 +37,13 @@ async def batch(c: Bot, m: Message):
             user_id=user_id,
         )
         if (
-            not lask.forward_from_chat 
+            not lask.forward_from_chat
             or not lask.forward_from_chat.id == c.conf.DATABASE_ID
         ):
             return await lask.reply('Invalid', quote=True)
         last = lask.forward_from_message_id
         break
-    if (abs(int(last) - int(first)) + 1) > 200:
+    if (abs(int(first) - int(last)) + 1) > 200:
         return await m.reply("Can't retrieve >200 messages.")
     encode = encoder(first, last)
     urlstr = helpers.urlstring(encode)
