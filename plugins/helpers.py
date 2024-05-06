@@ -13,7 +13,7 @@ class Helpers:
                     'Bot ini dapat menyimpan pesan dalam obrolan khusus, '\
                     'dan pengguna mengaksesnya melalui bot.'
     forcemsg: str = 'Untuk melihat pesan yang dibagikan oleh bot. '\
-                    'Join first, then press the Try Again button.'
+                    'Gabung dulu, lalu tekan tombol Coba Lagi.'
     bttnrows: int = 3
 
     def __init__(self, client: callable):
