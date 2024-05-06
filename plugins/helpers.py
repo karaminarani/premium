@@ -10,7 +10,7 @@ from bot.client import Bot
 
 class Helpers:
     greeting: str = 'Bot sudah aktif dan berjalan. '\
-                    'These bots can store messages in custom chats, '\
+                    'Bot ini dapat menyimpan pesan dalam obrolan khusus, '\
                     'and users access them through the bot.'
     forcemsg: str = 'To view messages shared by bots. '\
                     'Join first, then press the Try Again button.'
