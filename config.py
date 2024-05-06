@@ -3,6 +3,9 @@ from __future__ import annotations
 import os
 
 from async_pymongo import AsyncClient
+from dotenv import load_dotenv
+
+load_dotenv('config.env')
 
 
 class Config:
