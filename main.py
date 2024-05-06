@@ -12,10 +12,13 @@ from bot.client import Bot
 
 async def main():
     Bot.log.info('Truncating log')
-    logtruncate()
+    await logtruncate()
 
     Bot.log.info('Starting client')
     await start()
+
+    Bot.log.info('Initialize DATABASE_ID')
+    await chdb()
 
     Bot.log.info('Initialize FSUB_IDS')
     await getfs()
@@ -24,29 +27,43 @@ async def main():
     await rmsg('broadcast.txt')
 
 
-def logtruncate():
-    with open('log.txt', 'r+') as w:
-        w.truncate(0)
+def errhndlr(func):
+    async def wrapper(*args, **kwargs):
+        try:
+            return await func(*args, **kwargs)
+        except RPCError as e:
+            Bot.log.error(e)
+            sys.exit(1)
+    return wrapper
 
 
+async def logtruncate():
+    async with aiofiles.open('log.txt', 'r+') as w:
+        await w.truncate(0)
+
+
+@errhndlr
 async def start():
-    try:
-        await Bot.start()
-        Bot.log.info('Client started')
-    except RPCError as e:
-        Bot.log.info(e)
-        sys.exit(1)
+    await Bot.start()
+    Bot.log.info('Client started')
 
 
+@errhndlr
+async def chdb():
+    hello_world = await Bot.send_message(
+        Bot.conf.DATABASE_ID,
+        'Hello World!',
+    )
+    await hello_world.delete(revoke=True)
+    Bot.log.info('DATABASE: Passed')
+
+
+@errhndlr
 async def getfs():
     for index, chat_id in enumerate(Bot.conf.FSUB_IDS):
-        try:
-            url = (await Bot.get_chat(chat_id)).invite_link
-            setattr(Bot, f'{index + 1}', url)
-            Bot.log.info(f'FSUB_{index + 1} passed')
-        except RPCError as e:
-            Bot.log.error(f'FSUB_{index + 1}: {e}')
-            sys.exit(1)
+        url = (await Bot.get_chat(chat_id)).invite_link
+        setattr(Bot, f'{index + 1}', url)
+        Bot.log.info(f'FSUB_{index + 1} passed')
 
 
 async def rmsg(filepath):

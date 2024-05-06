@@ -1,6 +1,10 @@
 # Logger filehandler
 log.txt
 
+# misc file
+broadcast.txt
+restart.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
