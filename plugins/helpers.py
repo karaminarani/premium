@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import aiofiles
 from pyrogram.errors import RPCError
 from pyrogram.helpers import ikb
 from pyrogram.types import Message
@@ -71,14 +72,14 @@ class Helpers:
     ) -> Message:
         await msg.copy(_id, protect_content=Bot.conf.PROTECT_CONTENT)
 
-    def write(
+    async def write(
         self,
         file: str,
         cid: callable | int,
         mid: callable | int,
     ) -> None:
-        with open(file, 'w') as w:
-            w.write(f'{cid}\n{mid}')
+        async with aiofiles.open(file, 'w') as w:
+            await w.write(f'{cid}\n{mid}')
 
 
 helpers = Helpers(Bot)

@@ -19,7 +19,7 @@ async def broadcast(c: Bot, m: Message):
         return await m.reply('Reply to message.', quote=True)
     msg = await m.reply('...', quote=True)
 
-    helpers.write('broadcast.txt', m.chat.id, msg.id)
+    await helpers.write('broadcast.txt', m.chat.id, msg.id)
 
     users = await c.db.list()
     admns = len(c.conf.ADMIN_IDS)

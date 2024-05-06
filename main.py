@@ -4,6 +4,7 @@ import asyncio
 import os
 import sys
 
+import aiofiles
 from pyrogram.errors import RPCError
 
 from bot.client import Bot
@@ -50,9 +51,13 @@ async def getfs():
 
 async def rmsg(filepath):
     if os.path.exists(filepath):
-        with open(filepath) as r:
-            cid, mid = map(int, r.read().split())
-        await Bot.edit_message_text(cid, mid, 'Restarted.')
+        async with aiofiles.open(filepath, mode='r') as r:
+            cid, mid = [int(i) for i in (await r.read()).split()]
+        await Bot.send_message(
+            cid,
+            'Restarted.',
+            reply_to_message_id=mid,
+        )
         os.remove(filepath)
 
 

@@ -1,3 +1,4 @@
+aiofiles==23.2.1
 async_pymongo==0.1.4
 pyrofork==2.3.21
 python-dotenv==1.0.1
