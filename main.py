@@ -27,7 +27,7 @@ async def main():
     await rmsg('broadcast.txt')
 
 
-def errhndlr(func):
+def errhndlr(func: callable) -> callable:
     async def wrapper(*args, **kwargs):
         try:
             return await func(*args, **kwargs)
@@ -37,7 +37,7 @@ def errhndlr(func):
     return wrapper
 
 
-async def logtruncate():
+async def logtruncate() -> None:
     async with aiofiles.open('log.txt', 'r+') as w:
         await w.truncate(0)
 
@@ -66,7 +66,7 @@ async def getfs():
         Bot.log.info(f'FSUB_{index + 1} passed')
 
 
-async def rmsg(filepath):
+async def rmsg(filepath: str):
     if os.path.exists(filepath):
         async with aiofiles.open(filepath, mode='r') as r:
             cid, mid = [int(i) for i in (await r.read()).split()]

@@ -13,12 +13,12 @@ from bot.client import Bot
 @Bot.on_message(command(Bot.cmd.ping) & private)
 async def ping(_, m: Message):
     _ping = time.time()
-    _pong = await m.reply('...', quote=True)
+    msg = await m.reply('...', quote=True)
     ping_ = (time.time() - _ping) * 1000
-    return await _pong.edit(f'{ping_:.2f} ms')
+    return await msg.edit(f'{ping_:.2f} ms')
 
 
 @Bot.on_message(command(Bot.cmd.users) & private & user(Bot.conf.ADMIN_IDS))
 async def users(c: Bot, m: Message):
-    users = await c.db.list()
-    await m.reply(f'{len(users)} users', quote=True)
+    msg = await m.reply('...', quote=True)
+    await msg.edit(f'{len(await c.db.list())} users')

@@ -14,19 +14,18 @@ from bot.client import Bot
 
 @Bot.on_message(command(Bot.cmd.start) & private)
 async def start(c: Bot, m: Message):
+    strt = await m.reply('...', quote=True)
     user = m.from_user.id
     if not await c.db.get(user):
         await c.db.add(user)
     if len(m.command) == 1:
-        return await m.reply(
+        return await strt.edit(
             helpers.greeting,
-            quote=True,
             reply_markup=helpers.buttons(m),
         )
     if not await helpers.joined(user):
-        return await m.reply(
+        return await strt.edit(
             helpers.forcemsg,
-            quote=True,
             reply_markup=helpers.buttons(m),
         )
     msgids = []
@@ -53,3 +52,4 @@ async def start(c: Bot, m: Message):
             c.log.warning(f'Floodwait - Sleep: {e.value}s')
         except RPCError:
             continue
+    return await strt.delete()
